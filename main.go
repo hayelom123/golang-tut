@@ -1,7 +1,8 @@
 package main
 
 import "fmt"
-
+// https://chatgpt.com/share/6adfc9ec-6dd8-83eb-b4b8-19b8888d78c9
+// https://chatgpt.com/g/g-p-6adfc6759ad08191832519296f77eeb8-learn-go/project
 func main(){
 
 	fmt.Println("Hello, God! sorry for everyhting!!!")
