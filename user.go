@@ -1,6 +1,6 @@
 package main
 
-import (  
+import ( "errors"
 "fmt")
 
 type User struct{
@@ -10,6 +10,18 @@ type User struct{
 }
 
 
+func withdraw(balance float64,amount float64) (float64,error) {
+
+    if amount <=0{
+        return balance,errors.New("amount must be positive")
+    }
+
+    if amount > balance {
+        return balance,fmt.Errorf("Cannot withdraw %.2f: available balance is %.2f",amount,balance)
+    }
+
+    return balance-amount, nil
+}
 func addUser(user User, users []User) []User {
     
 	 return append(users,user)
@@ -96,4 +108,14 @@ func main() {
     }
 
     fmt.Println("Total users:", len(users))
+
+
+     remaining, err := withdraw(100, 300)
+
+    if err != nil {
+        fmt.Println("Error:", err)
+        return
+    }
+
+    fmt.Println("Remaining balance:", remaining)
 }
