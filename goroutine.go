@@ -23,7 +23,10 @@ func printNumbers(wg *sync.WaitGroup){
 
 func main(){
 
-	
+
+   go sayHello()
+	sayGoodbye()
+
 	// var wg sync.WaitGroup
 
 	// wg.Add(1)
