@@ -3,6 +3,13 @@ package main
 import ("fmt" 
 "sync")
 
+func sayHello() {
+    fmt.Println("Hello!")
+}
+
+func sayGoodbye() {
+    fmt.Println("Goodbye!")
+}
 
 func printNumbers(wg *sync.WaitGroup){
 
@@ -15,14 +22,16 @@ func printNumbers(wg *sync.WaitGroup){
 
 
 func main(){
-	var wg sync.WaitGroup
 
-	wg.Add(1)
-
-	go printNumbers(&wg)
-
-	wg.Wait()
 	
-	fmt.Println("Finished!")
+	// var wg sync.WaitGroup
+
+	// wg.Add(1)
+
+	// go printNumbers(&wg)
+
+	// wg.Wait()
+
+	// fmt.Println("Finished!")
 
 }
