@@ -21,7 +21,7 @@ func printNumbers(wg *sync.WaitGroup){
 }
 
 func worker(name string,wg *sync.WaitGroup){
-	wg.Done()
+   defer wg.Done()
 	fmt.Println("Hello from", name)
 }
 
@@ -29,18 +29,18 @@ func main(){
 
 
 //    go sayHello()
-	sayGoodbye()
+	// sayGoodbye()
 
-	var wg sync.WaitGroup
+	  var wg sync.WaitGroup
 
-	wg.Add(2)
+    wg.Add(2)
 
-	go worker("Worker 1", &wg)
+    go worker("Worker 1", &wg)
     go worker("Worker 2", &wg)
 
-	wg.Wait()
+    wg.Wait()
 
-	fmt.Println("All tasks completed!")
+    fmt.Println("All tasks completed!")
 
 	// var wg sync.WaitGroup
 
