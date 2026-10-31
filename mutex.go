@@ -5,6 +5,7 @@ import (
     "fmt"
     "sync"
 )
+ 
 
 func main() {
     counter := 0
@@ -30,4 +31,33 @@ func main() {
     wg.Wait()
 
     fmt.Println("Counter:", counter)
+
+	//  update bank balance 
+
+	balance:=1000
+
+	var wg1 sync.WaitGroup
+	var mut sync.Mutex
+
+	wg1.Add(2)
+
+	go func(){
+		 defer wg1.Done()
+
+		mut.Lock()
+		defer mut.Unlock()
+		balance += 500
+
+	}()
+
+	go func(){
+		defer wg1.Done()
+
+		mut.Lock()
+		balance+=300
+		mut.Unlock()
+	}()
+   wg1.Wait()
+
+   fmt.Println("Final balance:",balance)
 }
