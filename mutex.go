@@ -6,12 +6,18 @@ import (
     "sync"
 )
  
+func test(){
+	defer fmt.Println("function closed")
 
+	fmt.Println("function started")
+}
 func main() {
     counter := 0
 
     var wg sync.WaitGroup
 	var mu sync.Mutex
+
+
 
     wg.Add(2)
 
@@ -58,6 +64,7 @@ func main() {
 		mut.Unlock()
 	}()
    wg1.Wait()
-
+   
    fmt.Println("Final balance:",balance)
+   test()
 }
