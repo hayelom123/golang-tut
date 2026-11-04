@@ -1,8 +1,9 @@
 package main
 
-import ("fmt"
- "booking/utils"
- "booking/models"
+import (
+	"booking/models"
+	"booking/utils"
+	"fmt"
 )
 
 type User struct {
@@ -23,8 +24,8 @@ func main() {
 	fmt.Printf("we have total of %v tickets and %v are still available.\n", conferenceTickets, remainingTickets)
 	fmt.Println("Get your tickets here to attend.")
 
-	user,err := getUserInput()
-	if err!=nil {
+	user, err := getUserInput()
+	if err != nil {
 		fmt.Println("Failed to register user")
 		return
 	}
@@ -41,23 +42,22 @@ func main() {
 
 	fmt.Println("\n\n========================Bank==============================")
 
-    acc,err := models.NewBankAccount(user.firstName,50000.0) 
+	acc, err := models.NewBankAccount(user.firstName, 50000.0)
 
-	if err !=nil {
-       fmt.Println("Error:", err) // Output: Error: initial deposit cannot be negative
+	if err != nil {
+		fmt.Println("Error:", err) // Output: Error: initial deposit cannot be negative
 	}
-   fmt.Printf("User balance: %.2f\n",acc.GetBalance())
+	fmt.Printf("User balance: %.2f\n", acc.GetBalance())
 
 	acc.Deposit(20000)
-	fmt.Printf("User balance after Deposit: %.2f\n",acc.GetBalance())
- 
-	acc.Withdraw(30000)
-	fmt.Printf("User balance after Withdraw: %.2f\n",acc.GetBalance())
+	fmt.Printf("User balance after Deposit: %.2f\n", acc.GetBalance())
 
+	acc.Withdraw(30000)
+	fmt.Printf("User balance after Withdraw: %.2f\n", acc.GetBalance())
 
 }
 
-func getUserInput() (User,error) {
+func getUserInput() (User, error) {
 	var firstName string
 	var lastName string
 	var email string
@@ -84,7 +84,7 @@ func getUserInput() (User,error) {
 			lastName,
 			email,
 			userTickets,
-		},nil
+		}, nil
 	} else {
 		if !isValidName {
 			fmt.Println("Invalid first name or last name and each must be 2 letters")
@@ -95,9 +95,7 @@ func getUserInput() (User,error) {
 		if !isValidTicket {
 			fmt.Println("Invalid tickets. Ticket must be 1 or more")
 		}
-		return User{},fmt.Errorf("Invalid Input")
+		return User{}, fmt.Errorf("Invalid Input")
 	}
 
 }
-
-
