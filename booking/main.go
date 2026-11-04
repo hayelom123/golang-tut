@@ -1,7 +1,9 @@
 package main
 
 import ("fmt"
- "booking/utils")
+ "booking/utils"
+ "booking/models"
+)
 
 type User struct {
 	firstName string
@@ -36,6 +38,22 @@ func main() {
 	fmt.Printf("%v tickets remaining for %v\n", remainingTickets, conferenceName)
 
 	fmt.Printf("total bookings: %v \n", len(bookings))
+
+	fmt.Println("\n\n========================Bank==============================")
+
+    acc,err := models.NewBankAccount(user.firstName,50000.0) 
+
+	if err !=nil {
+       fmt.Println("Error:", err) // Output: Error: initial deposit cannot be negative
+	}
+   fmt.Printf("User balance: %.2f\n",acc.GetBalance())
+
+	acc.Deposit(20000)
+	fmt.Printf("User balance after Deposit: %.2f\n",acc.GetBalance())
+ 
+	acc.Withdraw(30000)
+	fmt.Printf("User balance after Withdraw: %.2f\n",acc.GetBalance())
+
 
 }
 
