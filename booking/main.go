@@ -2,7 +2,12 @@ package main
 
 import "fmt"
 
-
+type User struct {
+   	firstName string
+    lastName string
+    email string
+    tickets int
+}
 func main(){
 	const conferenceName= "Go conference"
 	const conferenceTickets = 50
@@ -12,13 +17,30 @@ func main(){
 	fmt.Printf("we have total of %v tickets and %v are still available.\n",conferenceTickets,remainingTickets)
 	fmt.Println("Get your tickets here to attend.")
 
-      var userName string
+      var firstName string
+	  var lastName string
+	  var email string
 	  var userTickets int
 	  // ask user for their name
+       
+	   fmt.Printf("First Name: ")
+	   fmt.Scan(&firstName)
+	
+	   fmt.Printf("Last name: ")
+	   fmt.Scan(&lastName)
+     
+	   fmt.Printf("Email: ")
+	   fmt.Scan(&email)
 
-	   fmt.Scan(&userName)
+	   fmt.Printf("Enter number of tickets: ")
+	   fmt.Scan(&userTickets)
 	 
-	//   userName="Tom"
-	  userTickets=2
-	  fmt.Printf("User %v booked %v tickets.\n",userName,userTickets)
+	//   var user = User{
+	// 	firstName,
+	// 	lastName,
+	// 	email,
+	// 	tickets:userTickets,
+	//   }
+fmt.Printf("Thank you %v %v for booking %v tickets. You will receive a conformation email at %v\n",firstName,lastName,userTickets,email)
+	//   fmt.Printf("User: %v\n",user)
 }
