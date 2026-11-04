@@ -1,6 +1,7 @@
 package main
 
-import "fmt"
+import ("fmt"
+ "booking/utils")
 
 type User struct {
 	firstName string
@@ -57,7 +58,7 @@ func getUserInput() (User,error) {
 	fmt.Printf("Enter number of tickets: ")
 	fmt.Scan(&userTickets)
 
-	isValidName, isValidEmail, isValidTicket := validateUserInput(firstName, lastName, email, userTickets)
+	isValidName, isValidEmail, isValidTicket := utils.ValidateUserInput(firstName, lastName, email, userTickets)
 
 	if isValidName && isValidEmail && isValidTicket {
 		return User{
