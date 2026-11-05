@@ -64,6 +64,7 @@ func main() {
 	}
 
   g.greet()
+  g.hi()
 
 }
 
@@ -90,5 +91,9 @@ type greeter struct {
 }
 
 func (g greeter) greet() {
+	fmt.Println(g.greeting, g.name)
+}
+
+func (g *greeter) hi() {
 	fmt.Println(g.greeting, g.name)
 }
