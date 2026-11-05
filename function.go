@@ -16,6 +16,12 @@ func main(){
     fmt.Println("I am immidately invoked function")
   }()// it will be used for asyn and defer function in the future
 
+  var f func(name string) = func(name string){
+    fmt.Printf("%s how are you?",name)
+  }
+
+  f("Hayelom")
+
   mul:=func(numbers ...int)(result int){
         result=1
         for _,num:= range numbers{
