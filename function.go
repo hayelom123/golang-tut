@@ -14,7 +14,17 @@ func main(){
 
   func(){
     fmt.Println("I am immidately invoked function")
-  }()
+  }()// it will be used for asyn and defer function in the future
+
+  mul:=func(numbers ...int)(result int){
+        result=1
+        for _,num:= range numbers{
+          result*=num
+        }
+        return
+  }
+
+  fmt.Println("Multplication Result:",mul(1,2,3,4))
 
 
 }
