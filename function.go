@@ -58,6 +58,13 @@ func main() {
 
 	////////////////////////////////////////////////////////////////////////////////////////////////////
 
+	g := greeter{
+		name:     "Go",
+		greeting: "Hello ",
+	}
+
+  g.greet()
+
 }
 
 // multiple parameter
@@ -73,4 +80,15 @@ func calculate(a, b int) (int, int) {
 	sum := a + b
 	difference := a - b
 	return sum, difference
+}
+
+////////////////////////////////////////Method Invocation//////////////////////////////////////////////////
+
+type greeter struct {
+	greeting string
+	name     string
+}
+
+func (g greeter) greet() {
+	fmt.Println(g.greeting, g.name)
 }
