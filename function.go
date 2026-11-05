@@ -63,8 +63,8 @@ func main() {
 		greeting: "Hello ",
 	}
 
-  g.greet()
-  g.hi()
+	g.greet()
+	g.hi()
 
 }
 
