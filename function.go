@@ -17,7 +17,7 @@ func main(){
   }()// it will be used for asyn and defer function in the future
 
   var f func(name string) = func(name string){
-    fmt.Printf("%s how are you?",name)
+    fmt.Printf("%s how are you?\n",name)
   }
 
   f("Hayelom")
@@ -31,6 +31,24 @@ func main(){
   }
 
   fmt.Println("Multplication Result:",mul(1,2,3,4))
+
+  var divide func(float64,float64) (float64,error)
+
+  divide=func(a,b float64) (float64,error){
+     if b==0{
+      return 0.0,fmt.Errorf("can not divide by zero")
+     }
+     return a/b,nil
+  }
+
+  num1,num2:=5.0,3.0
+  res,err:=divide(num1,num2)
+  if err!=nil {
+      fmt.Println(err)
+      return
+  }
+
+  fmt.Printf("%v / %v = %v \n",num1,num2,res)
 
 
 }
