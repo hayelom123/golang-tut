@@ -9,8 +9,14 @@ func main(){
 
   sum,diff := calculate(9,6)
 
-    fmt.Println("Sum:", sum)
-    fmt.Println("Difference:", diff)
+  fmt.Println("Sum:", sum)
+  fmt.Println("Difference:", diff)
+
+  func(){
+    fmt.Println("I am immidately invoked function")
+  }()
+
+
 }
 
 func sum(a ...int) (result int) {
