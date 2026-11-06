@@ -68,6 +68,11 @@ func main(){
 		fmt.Println(myInt.increment())
 	}
 
+	//  writer closer 
+
+	var wc WriterCloser = &myWriterCloser{}
+	fmt.Println(wc)
+
 
 }
 
@@ -121,4 +126,25 @@ type IntCounter int
 func(c *IntCounter) increment()int{
 	*c++
 	return int(*c)
+}
+
+//=========================== writter =========================
+
+ type Closer interface{
+	Close() error
+ }
+
+ type WriterCloser interface{
+	Writer
+	Closer
+ }
+
+ type myWriterCloser struct{}
+
+func(mwc *myWriterCloser) Write(data []byte)(int,error){
+	return 0,nil
+}
+
+func (mwc *myWriterCloser)Close() error{
+	return nil
 }
