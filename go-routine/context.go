@@ -2,7 +2,7 @@ package main
 
 import (
 	"fmt"
-	// "time"
+	"time"
 	"context"
 	"sync"
 )
@@ -17,14 +17,14 @@ func checkDrawing(ctx context.Context) {
 
 }
 
-func processDrawing(ctx context.Context, wg *sync.WaitGroup) {
+func worker(ctx context.Context, wg *sync.WaitGroup) {
 	defer wg.Done()
 
-	fmt.Println("Drawing processing started")
+	fmt.Println("Worker started")
 
 	<-ctx.Done()
 
-	fmt.Println("Drawing processing canceled: ", ctx.Err())
+	fmt.Println("Worker stopped:", ctx.Err())
 }
 func main() {
 
@@ -49,20 +49,49 @@ func main() {
 
 	// <-ctx.Done()
 
-	ctx, cancel := context.WithCancel(
-		context.Background(),
-	)
+	// ctx, cancel := context.WithCancel(
+	// 	context.Background(),
+	// )
+
+	// var wg sync.WaitGroup
+
+	// wg.Add(1)
+
+	// go worker(ctx, &wg)
+
+	// cancel()
+
+	// wg.Wait()
+
+	// fmt.Println("Main finished")
+
+
+	ctx,cancel:=context.WithCancel(context.Background())
+    defer cancel()
 
 	var wg sync.WaitGroup
-
 	wg.Add(1)
-
-	go processDrawing(ctx, &wg)
-
-	cancel()
-
+	go processDrawing(ctx,&wg)
+	time.Sleep(3500*time.Millisecond)
+	   cancel()
 	wg.Wait()
 
-	fmt.Println("Main finished")
+}
 
+func processDrawing(ctx context.Context,wg *sync.WaitGroup) {
+     defer wg.Done()
+
+	 for i:=1;i<=5; i++{
+		
+		select{
+		case <-ctx.Done():
+			fmt.Println("Processing cancelled :",ctx.Err())
+			return
+		default:
+			 fmt.Println("Processing drawing:", i)
+			 time.Sleep(1 * time.Second)
+		}
+
+	 }
+	 fmt.Println("All drawings processed")
 }
