@@ -87,9 +87,8 @@ func processDrawing(ctx context.Context,wg *sync.WaitGroup) {
 		case <-ctx.Done():
 			fmt.Println("Drawing processing canceled: ",ctx.Err())
 			return
-		default:
-			 fmt.Println("Processing drawing:", i)
-			 time.Sleep(1 * time.Second)
+		case <-time.After(1 * time.Second):
+			  fmt.Println("Drawing completed:", i)
 		}
 
 	 }
