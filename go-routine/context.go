@@ -6,12 +6,12 @@ import (
 	"context"
 )
 
-func processDrawing(ctx context.Context){
+func checkDrawing(ctx context.Context){
 	select{
 	case <-ctx.Done():
 		 fmt.Println("Drawing canceled")
 	default:
-        fmt.Println("Drawing processing started")
+        fmt.Println("Drawing is ready")
 	}
 	    
 }
@@ -34,9 +34,11 @@ func main(){
 	ctx, cancel := context.WithCancel(
         context.Background(),
     )
-    cancel()
-    processDrawing(ctx)
+   
+	 cancel()
+    checkDrawing(ctx)
+	 
     // <-ctx.Done()
 
-    fmt.Println("Finished")
+   
 }
