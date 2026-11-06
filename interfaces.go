@@ -4,6 +4,7 @@ import ("fmt"
 "math")
 
 
+//=========================== shapes =========================
 type Shape interface{
 	Area() float64
 }
@@ -53,9 +54,25 @@ func main(){
 	runLog(consoleLog,"Console log")
 	runLog(prefixLog,"Prefix log")
 
+	// writer example
+
+	var w Writer = ConsoleWriter{}
+	w.Write([]byte("Hello Go!"))
+
+
+	// increment 
+    
+	myInt :=IntCounter(0)
+
+	for i:=0; i<10;i++ {
+		fmt.Println(myInt.increment())
+	}
+
+
 }
 
 
+//=========================== logers =========================
 type Logger interface{
 	Log(message string)
 }
@@ -78,4 +95,30 @@ func(l PrefixLogger) Log(message string){
 
 func runLog(l Logger,message string){
 	l.Log(message)
+}
+
+//=========================== writters =========================
+
+type Writer interface{
+	Write([]byte)(int,error)
+}
+
+type ConsoleWriter struct{}
+
+func(cw ConsoleWriter) Write(data []byte) (int,error){
+	 n,err:=fmt.Println(string(data))
+	 return n,err
+}
+
+//=========================== Counter =========================
+
+type Incrementer interface{
+	increment()int
+}
+
+type IntCounter int
+
+func(c *IntCounter) increment()int{
+	*c++
+	return int(*c)
 }
