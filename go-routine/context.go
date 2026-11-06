@@ -12,7 +12,8 @@ func processDrawing(ctx context.Context){
 
 func main(){
 
-	 ctx:=context.Background()
+	 ctx,cancel:=context.WithCancel(context.Background())
+	 fmt.Println(cancel)
 	   processDrawing(ctx)
 
 }
