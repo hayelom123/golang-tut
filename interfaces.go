@@ -73,6 +73,21 @@ func main(){
 	var wc WriterCloser = &myWriterCloser{}
 	fmt.Println(wc)
 
+	//  the empty interface and switch
+
+	var i interface{} =0
+
+	switch i.(type){
+		case int:
+			fmt.Println("i is integer")
+		case string:
+			fmt.Println("i is string")
+		case float64:
+			fmt.Println("i is float")
+		default:
+			fmt.Println("I don't know what i is")
+	}
+
 
 }
 
@@ -148,3 +163,7 @@ func(mwc *myWriterCloser) Write(data []byte)(int,error){
 func (mwc *myWriterCloser)Close() error{
 	return nil
 }
+
+/**
+ Best practice
+*/
