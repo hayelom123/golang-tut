@@ -72,7 +72,7 @@ func main() {
 	var wg sync.WaitGroup
 	wg.Add(1)
 	go processDrawing(ctx,&wg)
-	time.Sleep(3500*time.Millisecond)
+	time.Sleep(4500*time.Millisecond)
 	   cancel()
 	wg.Wait()
 
@@ -81,11 +81,11 @@ func main() {
 func processDrawing(ctx context.Context,wg *sync.WaitGroup) {
      defer wg.Done()
 
-	 for i:=1;i<=5; i++{
+	 for i:=1;i<=10; i++{
 		
 		select{
 		case <-ctx.Done():
-			fmt.Println("Processing cancelled :",ctx.Err())
+			fmt.Println("Drawing processing canceled: ",ctx.Err())
 			return
 		default:
 			 fmt.Println("Processing drawing:", i)
