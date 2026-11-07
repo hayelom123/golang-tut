@@ -7,7 +7,9 @@ import (
 
 func home(res http.ResponseWriter, req *http.Request) {
 
-	fmt.Println(req)
+	fmt.Println("Method:", req.Method)
+	fmt.Println("Path:", req.URL.Path)
+	fmt.Println("headers:",req.Header)
 
 	fmt.Fprintln(res, "Hello God!!!")
 }
