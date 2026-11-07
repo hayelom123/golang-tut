@@ -25,7 +25,7 @@ func main(){
 	currentTime:=time.Now()
 	fmt.Println("Current time: ", currentTime)
 
-	deadline:=time.Now().Add(5*time.Second)
+	deadline:=currentTime.Add(4*time.Second)
 	fmt.Println("Deadline: ", deadline)
 
 	ctx,cancel:=context.WithDeadline(context.Background(),deadline)
