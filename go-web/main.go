@@ -18,7 +18,7 @@ func main() {
 		 }else if req.Method==http.MethodPost {
 			fmt.Fprintf(w,"Post request received!!!\n")
 		 }else {
-				fmt.Fprintf(w,"Unkown request received!!!\n")
+			fmt.Fprintf(w,"Unkown request received!!!\n")
 		 }
 	})
 
