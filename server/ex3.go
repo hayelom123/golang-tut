@@ -10,7 +10,7 @@ import (
 type Student struct{
 	Name string `json:"name"`
 	Age int `json:"age"`
-	Grade string `json:"Grade"`
+	Grade string `json:"grade"`
 }
 
 var students=[]Student{}
@@ -40,7 +40,7 @@ func routeHandler(res http.ResponseWriter,req *http.Request){
 		}
 		var student Student
 		err=json.Unmarshal(body,&student)
-		fmt.Println(student)
+		fmt.Println(string(body))
 
 		if err!=nil {
 			http.Error(res,"failed to parse data",http.StatusInternalServerError)
