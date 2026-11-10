@@ -24,12 +24,12 @@ func main(){
 	mux:=http.NewServeMux()
 	
 	// Register routes
-	mux.HandleFunc("/",func(res http.ResponseWriter,req *http.Request){
+	mux.HandleFunc("/{$}",func(res http.ResponseWriter,req *http.Request){
 		fmt.Fprintln(res,"Hello God from your child")
 	})
     mux.HandleFunc("/students", studentHandler)
-	 mux.HandleFunc("/courses", coursesHandler)
-	  mux.HandleFunc("/teachers", teachersHandler)
+	mux.HandleFunc("/courses", coursesHandler)
+	mux.HandleFunc("/teachers", teachersHandler)
     mux.HandleFunc("/products", productHandler)
 
     fmt.Println("Server is running in http://localhost:8000")
