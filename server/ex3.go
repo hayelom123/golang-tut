@@ -23,6 +23,11 @@ func routeHandler(res http.ResponseWriter,req *http.Request){
 	fmt.Printf("%s\t%s\n",method,path)
 
 	fmt.Println("===========================")
+	 
+	if maxErr !=nil{
+		http.Error(res,"Request body to large",http.StatusRequestEntityTooLarge)
+		return
+	}
 
     if method=="GET" {
 		res.Header().Set("Content-type","application/json")
@@ -33,8 +38,19 @@ func routeHandler(res http.ResponseWriter,req *http.Request){
 		}
 
 	}else if method=="POST"  {
+		// Limit incoming body to 1024 bytes
+        req.Body = http.MaxBytesReader(res, req.Body, 1024)
+
 		body,err:=io.ReadAll(req.Body)
 		if err !=nil {
+			 var maxErr *http.MaxBytesError
+
+            if errors.As(err, &maxErr) {
+                http.Error(res, "Request body too large",
+                    http.StatusRequestEntityTooLarge)
+                return
+            }
+			
 			http.Error(res,"Failed to read data",http.StatusInternalServerError)
 			return
 		}
