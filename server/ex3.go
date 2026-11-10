@@ -6,6 +6,7 @@ import (
 	"errors"
 	"net/http"
 	"encoding/json"
+	"mime"
 )
 
 type Student struct{
@@ -23,10 +24,17 @@ func routeHandler(res http.ResponseWriter,req *http.Request){
 
 	fmt.Printf("%s\t%s\n",method,path)
 
+	// Step 1: Read Content-Type
+	contentType:= req.Header.Get("Content-Type")
+    fmt.Println("Content-Type: ",contentType)
+	
+	// Step 2: Parse the media type
+	mediaType, _, err := mime.ParseMediaType(contentType)
+    fmt.Println("Mime-Type: ",mediaType)
+
 	fmt.Println("===========================")
 	 
- 
-
+	
     if method=="GET" {
 		res.Header().Set("Content-type","application/json")
 		if err:=json.NewEncoder(res).Encode(students);err!=nil{
@@ -36,6 +44,13 @@ func routeHandler(res http.ResponseWriter,req *http.Request){
 		}
 
 	}else if method=="POST"  {
+
+	 // Step 3: Verify JSON format
+    if err != nil || mediaType != "application/json" {
+        http.Error(res, "JSON required", http.StatusUnsupportedMediaType)
+        return
+    }
+
 		// Limit incoming body to 1024 bytes
         req.Body = http.MaxBytesReader(res, req.Body, 1024)
 
