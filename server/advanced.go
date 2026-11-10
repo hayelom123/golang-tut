@@ -20,6 +20,9 @@ func productHandler(res http.ResponseWriter, req *http.Request) {
     fmt.Fprintln(res, "Welcome to Products API")
 }
 
+func createProductHandler(res http.ResponseWriter, req *http.Request) {
+    fmt.Fprintln(res, "Welcome to Create Products API")
+}
 func main(){
 	mux:=http.NewServeMux()
 	
@@ -27,10 +30,11 @@ func main(){
 	mux.HandleFunc("/{$}",func(res http.ResponseWriter,req *http.Request){
 		fmt.Fprintln(res,"Hello God from your child")
 	})
-    mux.HandleFunc("/students", studentHandler)
-	mux.HandleFunc("/courses", coursesHandler)
-	mux.HandleFunc("/teachers", teachersHandler)
-    mux.HandleFunc("/products", productHandler)
+    mux.HandleFunc("GET /students", studentHandler)
+	mux.HandleFunc("GET /courses", coursesHandler)
+	mux.HandleFunc("GET /teachers", teachersHandler)
+    mux.HandleFunc("GET /products", productHandler)
+	mux.HandleFunc("POST /products/create",createProductHandler)
 
     fmt.Println("Server is running in http://localhost:8000")
 	err:=http.ListenAndServe(":8000",mux)
