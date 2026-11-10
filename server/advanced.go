@@ -8,6 +8,9 @@ import (
 func studentHandler(res http.ResponseWriter, req *http.Request) {
     fmt.Fprintln(res, "Welcome to Students API")
 }
+func createStudentHandler(res http.ResponseWriter, req *http.Request) {
+    fmt.Fprintln(res, "Welcome create to Students API")
+}
 
 func coursesHandler(res http.ResponseWriter, req *http.Request) {
     fmt.Fprintln(res, "Welcome to Courses API")
@@ -31,6 +34,7 @@ func main(){
 		fmt.Fprintln(res,"Hello God from your child")
 	})
     mux.HandleFunc("GET /students", studentHandler)
+	mux.HandleFunc("POST /students", createStudentHandler)
 	mux.HandleFunc("GET /courses", coursesHandler)
 	mux.HandleFunc("GET /teachers", teachersHandler)
     mux.HandleFunc("GET /products", productHandler)
