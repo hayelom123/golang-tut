@@ -39,6 +39,7 @@ func studentHandler(res http.ResponseWriter, req *http.Request) {
     }
 }
 func createStudentHandler(res http.ResponseWriter, req *http.Request) {
+	res.WriteHeader(http.StatusCreated)
     fmt.Fprintln(res, "Welcome create to Students API")
 }
 func getStudentByIdHandler(res http.ResponseWriter, req *http.Request) {
