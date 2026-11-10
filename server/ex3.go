@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"io"
+	"errors"
 	"net/http"
 	"encoding/json"
 )
@@ -24,10 +25,7 @@ func routeHandler(res http.ResponseWriter,req *http.Request){
 
 	fmt.Println("===========================")
 	 
-	if maxErr !=nil{
-		http.Error(res,"Request body to large",http.StatusRequestEntityTooLarge)
-		return
-	}
+ 
 
     if method=="GET" {
 		res.Header().Set("Content-type","application/json")
@@ -50,7 +48,7 @@ func routeHandler(res http.ResponseWriter,req *http.Request){
                     http.StatusRequestEntityTooLarge)
                 return
             }
-			
+
 			http.Error(res,"Failed to read data",http.StatusInternalServerError)
 			return
 		}
