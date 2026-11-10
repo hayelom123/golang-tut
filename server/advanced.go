@@ -11,6 +11,10 @@ func studentHandler(res http.ResponseWriter, req *http.Request) {
 func createStudentHandler(res http.ResponseWriter, req *http.Request) {
     fmt.Fprintln(res, "Welcome create to Students API")
 }
+func getStudentByIdHandler(res http.ResponseWriter, req *http.Request) {
+	id := req.PathValue("id")
+    fmt.Fprintln(res, "student id: ", id)
+}
 
 func coursesHandler(res http.ResponseWriter, req *http.Request) {
     fmt.Fprintln(res, "Welcome to Courses API")
@@ -35,6 +39,7 @@ func main(){
 	})
     mux.HandleFunc("GET /students", studentHandler)
 	mux.HandleFunc("POST /students", createStudentHandler)
+	mux.HandleFunc("GET /students/{id}", getStudentByIdHandler)
 	mux.HandleFunc("GET /courses", coursesHandler)
 	mux.HandleFunc("GET /teachers", teachersHandler)
     mux.HandleFunc("GET /products", productHandler)
