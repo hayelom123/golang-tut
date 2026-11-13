@@ -94,13 +94,13 @@ func getStudentById(res http.ResponseWriter,req *http.Request){
          http.Error(res, "Invalid student ID", http.StatusBadRequest)
         return
 		}
-	 
+	mux.RLock()
 	student,_,err := findStudent(id)
 	if err !=nil {
 		http.Error(res, err.Error(),http.StatusNotFound)
 		return
 	}
-
+      mux.RUnlock()
 	if err=json.NewEncoder(res).Encode(student);err!=nil{
 		http.Error(res, err.Error(),http.StatusNotFound)
 	}
@@ -134,7 +134,7 @@ func replaceSutdentInformation(res http.ResponseWriter,req *http.Request){
 		http.Error(res, "Failed to parse JSON data", http.StatusBadRequest)
 		return
 	}
-
+  mux.Lock()
 	if newInfo.Name !=nil{
 		students[index].Name= *newInfo.Name
 	}
@@ -144,7 +144,7 @@ func replaceSutdentInformation(res http.ResponseWriter,req *http.Request){
 	if newInfo.Age !=nil{
 		students[index].Age= *newInfo.Age
 	}
-
+mux.Unlock()
 	if err=json.NewEncoder(res).Encode(students[index]);err!=nil{
 		http.Error(res,"Failed to update:"+err.Error(),http.StatusInternalServerError)
 	}
@@ -178,28 +178,38 @@ func updateStudent(res http.ResponseWriter,req *http.Request){
 		http.Error(res, "Failed to parse JSON data", http.StatusBadRequest)
 		return
 	}
-
+    mux.Lock()
     newInfo.ID=student.ID
 	 students[index] = newInfo
-
+	mux.Unlock()
+   res.Header().Set("Content-Type","application/json")
+    
 	if err=json.NewEncoder(res).Encode(students[index]);err!=nil{
 		http.Error(res,"Failed to update:"+err.Error(),http.StatusInternalServerError)
 	}
 }
 func deleteSutdent(res http.ResponseWriter,req *http.Request){
-	// idString:=req.PathValue("id")
-	// id,err:=strconv.Atoi(idString)
+	idString:=req.PathValue("id")
+	id,err:=strconv.Atoi(idString)
 
-	// if err != nil || id <= 0 {
-    //      http.Error(res, "Invalid student ID", http.StatusBadRequest)
-    //     return
-	// 	}
+	if err != nil || id <= 0 {
+         http.Error(res, "Invalid student ID", http.StatusBadRequest)
+        return
+		}
 	 
-	// student,_,err := findStudent(id)
-	// if err !=nil {
-	// 	http.Error(res, err.Error(),http.StatusNotFound)
-	// 	return
-	// }
+	student,index,err := findStudent(id)
+	if err !=nil {
+		http.Error(res, err.Error(),http.StatusNotFound)
+		return
+	}
+    mux.Lock()
+	students= append(students[:index],students[index+1:]...)
+    mux.Unlock()
+	 res.Header().Set("Content-Type","application/json")
+  
+    if err=json.NewEncoder(res).Encode(student);err!=nil{
+		http.Error(res,"Failed to update:"+err.Error(),http.StatusInternalServerError)
+	}
 }
 
 func main(){
