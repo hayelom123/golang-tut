@@ -106,13 +106,100 @@ func getStudentById(res http.ResponseWriter,req *http.Request){
 	}
 }
 func replaceSutdentInformation(res http.ResponseWriter,req *http.Request){
-	
+	idString:=req.PathValue("id")
+	id,err:=strconv.Atoi(idString)
+
+	if err != nil || id <= 0 {
+         http.Error(res, "Invalid student ID", http.StatusBadRequest)
+        return
+		}
+	 
+	_,index,err := findStudent(id)
+	if err !=nil {
+		http.Error(res, err.Error(),http.StatusNotFound)
+		return
+	}
+
+	req.Body =http.MaxBytesReader(res,req.Body,1024)
+	body,err:=io.ReadAll(req.Body)
+
+	if err!=nil {
+		http.Error( res,"Failed to read body",http.StatusInternalServerError)
+		return
+	}
+	 var newInfo StudentPatch
+	 
+
+	if err = json.Unmarshal(body, &newInfo); err != nil {
+		http.Error(res, "Failed to parse JSON data", http.StatusBadRequest)
+		return
+	}
+
+	if newInfo.Name !=nil{
+		students[index].Name= *newInfo.Name
+	}
+	if newInfo.Grade != nil{
+		students[index].Grade=*newInfo.Grade
+	}
+	if newInfo.Age !=nil{
+		students[index].Age= *newInfo.Age
+	}
+
+	if err=json.NewEncoder(res).Encode(students[index]);err!=nil{
+		http.Error(res,"Failed to update:"+err.Error(),http.StatusInternalServerError)
+	}
 }
-func updateSutdent(res http.ResponseWriter,req *http.Request){
-	
+func updateStudent(res http.ResponseWriter,req *http.Request){
+	 idString:=req.PathValue("id")
+	id,err:=strconv.Atoi(idString)
+
+	if err != nil || id <= 0 {
+         http.Error(res, "Invalid student ID", http.StatusBadRequest)
+        return
+		}
+	 
+	student,index,err := findStudent(id)
+	if err !=nil {
+		http.Error(res, err.Error(),http.StatusNotFound)
+		return
+	}
+
+	req.Body =http.MaxBytesReader(res,req.Body,1024)
+	body,err:=io.ReadAll(req.Body)
+
+	if err!=nil {
+		http.Error( res,"Failed to read body",http.StatusInternalServerError)
+		return
+	}
+	 var newInfo Student
+	 
+
+	if err = json.Unmarshal(body, &newInfo); err != nil {
+		http.Error(res, "Failed to parse JSON data", http.StatusBadRequest)
+		return
+	}
+
+    newInfo.ID=student.ID
+	 students[index] = newInfo
+
+	if err=json.NewEncoder(res).Encode(students[index]);err!=nil{
+		http.Error(res,"Failed to update:"+err.Error(),http.StatusInternalServerError)
+	}
 }
 func deleteSutdent(res http.ResponseWriter,req *http.Request){
-	
+	// idString:=req.PathValue("id")
+	// id,err:=strconv.Atoi(idString)
+
+	// if err != nil || id <= 0 {
+    //      http.Error(res, "Invalid student ID", http.StatusBadRequest)
+    //     return
+	// 	}
+	 
+	// student,_,err := findStudent(id)
+	// if err !=nil {
+	// 	http.Error(res, err.Error(),http.StatusNotFound)
+	// 	return
+	// }
 }
 
 func main(){
@@ -123,8 +210,8 @@ func main(){
   app.HandleFunc("GET /students/{id}",getStudentById)
   app.HandleFunc("POST /students",createSutdent)
 
-  app.HandleFunc("PUT /students/{id}",replaceSutdentInformation)
-  app.HandleFunc("PATCH /students/{id}",updateSutdent)
+  app.HandleFunc("PUT /students/{id}",updateStudent)
+  app.HandleFunc("PATCH /students/{id}",replaceSutdentInformation)
   app.HandleFunc("DELETE /students/{id}",deleteSutdent)
  
   fmt.Println("Server is running in http://localhost:8000")
