@@ -26,7 +26,7 @@ func main(){
 
 	fmt.Println("Server is listening on http://localhost:8000")
 
-	err:=http.ListenAndServe(":8000",nil)
+	err :=http.ListenAndServe(":8000",nil)
 
 	if err!=nil{
 		fmt.Println("Server error",err)
