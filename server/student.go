@@ -6,6 +6,7 @@ import (
 	"encoding/json"
 	"sync"
 	"io"
+	"strconv"
 )
 
 type Student struct{
@@ -76,8 +77,33 @@ func getAllSutdents(res http.ResponseWriter,req *http.Request){
 			return
 	}
 }
+func findStudent(id int)(Student,int,error){
+	for index,student:=range students{
+       if student.ID == id {
+		return student,index,nil
+	   }
+	}
+	return Student{},-1,fmt.Errorf("Student not found")
+}
 func getStudentById(res http.ResponseWriter,req *http.Request){
-	
+
+	idString:=req.PathValue("id")
+	id,err:=strconv.Atoi(idString)
+
+	if err != nil || id <= 0 {
+         http.Error(res, "Invalid student ID", http.StatusBadRequest)
+        return
+		}
+	 
+	student,_,err := findStudent(id)
+	if err !=nil {
+		http.Error(res, err.Error(),http.StatusNotFound)
+		return
+	}
+
+	if err=json.NewEncoder(res).Encode(student);err!=nil{
+		http.Error(res, err.Error(),http.StatusNotFound)
+	}
 }
 func replaceSutdentInformation(res http.ResponseWriter,req *http.Request){
 	
