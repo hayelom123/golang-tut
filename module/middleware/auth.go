@@ -14,6 +14,7 @@ func AuthMiddleware(next http.Handler) http.Handler{
 		if token!="Bearer parctice-token" {
 			res.Header().Set("WWW-Authenticate", "Bearer")
 			http.Error(res,"Unauthorized",http.StatusUnauthorized)
+			return
 		}
 		
 		// Continue only when token is valid

@@ -5,7 +5,9 @@ import (
 	"net/http"
 	"time"
 )
-
+// type Handler interface {
+//     ServeHTTP(http.ResponseWriter, *http.Request)
+// }
 
 func LoggingMiddleware(next http.Handler) http.Handler{
 	return http.HandlerFunc(func(res http.ResponseWriter,req *http.Request){
