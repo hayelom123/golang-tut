@@ -13,7 +13,8 @@ func LoggingMiddleware(next http.Handler) http.Handler{
 		start := time.Now()
 		
 		// 1. Pre-processing logic runs here (before the main handler)
-		fmt.Println(req.Method,req.URL.Path)
+		log.Printf("Started %s %s", req.Method, req.URL.Path)
+
 
 		// 2. Pass control to the next handler in the chain
 		next.ServeHTTP(res,req)
