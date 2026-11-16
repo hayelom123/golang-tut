@@ -1,6 +1,10 @@
 package middleware
 
-import ("net/http")
+import (
+	"net/http"
+	"context"
+	"log"
+)
 
 // Private context key type
 type userIDKey struct{}
@@ -16,15 +20,18 @@ func AuthMiddleware(next http.Handler) http.Handler{
 		res http.ResponseWriter,
 		req *http.Request,
 	){
-
+        log.Printf("%s\n",req.Header)
 		// get header token
-		token:= req.Header.Get("Authorization")
+		token := req.Header.Get("Authorization")
+		log.Printf("token: %s\n",token)
 
-		if token!="Bearer parctice-token" {
-			res.Header().Set("WWW-Authenticate", "Bearer")
-			http.Error(res,"Unauthorized",http.StatusUnauthorized)
-			return
-		}
+		 
+
+        if token != "Bearer practice-token" {
+            res.Header().Set("WWW-Authenticate", "Bearer")
+            http.Error(res, "Unauthorized", http.StatusUnauthorized)
+            return
+        }
 		
 		// Demo identity associated with our practice token
         userID := "student-42"

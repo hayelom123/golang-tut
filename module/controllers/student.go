@@ -5,6 +5,7 @@ import (
 	"net/http"
 	"example.com/api/model"
 	"example.com/api/helpers"
+	"example.com/api/middleware"
 )
 
 // // An HTTP handler that depends on a StudentStore.
@@ -40,10 +41,23 @@ func  CreateStudent(res http.ResponseWriter,req *http.Request){
  
 }
 
+func ProfileHandler(res http.ResponseWriter, req *http.Request) {
+    userID, ok := middleware.UserIDFromContext(req.Context())
+
+    if !ok {
+        http.Error(res, "User information missing",
+            http.StatusInternalServerError)
+        return
+    }
+
+    fmt.Fprintln(res, "Authenticated user:", userID)
+}
+
 func UpdateStudent(res http.ResponseWriter,req *http.Request){
 
 	
 }
+
 
 func PatchStudent(res http.ResponseWriter,req *http.Request){
 
