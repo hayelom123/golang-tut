@@ -32,7 +32,10 @@ func main(){
 	server:=&http.Server{
 		Addr:addr,
         Handler:handler,
-		ReadHeaderTimeout: 5 * time.Second,
+		ReadHeaderTimeout: 5 * time.Second,//Time to receive request headers
+		ReadTimeout:       15 * time.Second,//Time to read the entire request, including its body
+        WriteTimeout:      20 * time.Second,//Deadline for writing the HTTP response
+        IdleTimeout:       60 * time.Second,//Time to wait for another request on an idle keep-alive connection
 	}
 
 	// err:=http.ListenAndServe(":8000",handler)
