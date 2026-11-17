@@ -3,6 +3,12 @@ package main
 import (
 	"fmt"
 	"net/http"
+	"context"
+    "errors"
+    "log"
+    "os"
+    "os/signal"
+    "time"
 	"example.com/api/routes"
 	"example.com/api/middleware"
 	// "os"
@@ -29,10 +35,46 @@ func main(){
 	}
 
 	// err:=http.ListenAndServe(":8000",handler)
-	err:= server.ListenAndServe()
+	// err:= server.ListenAndServe()
 
 
-	if err!=nil {
-		fmt.Println("Server Error: "+err.Error())
-	}
+	// if err!=nil {
+	// 	fmt.Println("Server Error: "+err.Error())
+	// }
+
+	// Step 3: Start server concurrently
+    go func() {
+        err := server.ListenAndServe()
+
+        if err != nil && !errors.Is(err, http.ErrServerClosed) {
+            log.Println("Server error:", err)
+        }
+    }()
+
+    log.Println("Server running on port 8000")
+
+    // Step 4: Wait for Ctrl+C
+    shutdownSignal, stop := signal.NotifyContext(
+        context.Background(),
+        os.Interrupt,
+    )
+    defer stop()
+
+    <-shutdownSignal.Done()
+
+    log.Println("Shutdown requested")
+
+    // Step 5: Give requests up to 10 seconds
+    ctx, cancel := context.WithTimeout(
+        context.Background(),
+        10*time.Second,
+    )
+    defer cancel()
+
+    // Step 6: Stop the server gracefully
+    if err := server.Shutdown(ctx); err != nil {
+        log.Println("Shutdown error:", err)
+    }
+
+    log.Println("Server stopped")
 }
